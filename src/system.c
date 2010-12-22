@@ -53,7 +53,7 @@ void system_info(sys_struct* sys){
     // uptime
     fp = fopen("/proc/uptime", "r");
     if(fp != NULL){
-        if(fscanf(fp, "%lu", &sys->uptime.timestamp) != 1){
+        if(fscanf(fp, "%lu", &sys->uptime.timestamp) == 1){
             sys->uptime.days = (unsigned int) floor(sys->uptime.timestamp / DAY);
             sys->uptime.hours = (unsigned int) floor((sys->uptime.timestamp % DAY) / HOUR);
             sys->uptime.minutes = (unsigned int) floor(((sys->uptime.timestamp % DAY) % HOUR) / MINUTE);
@@ -66,7 +66,7 @@ void system_info(sys_struct* sys){
     // load average
     fp = fopen("/proc/loadavg", "r");
     if(fp != NULL){
-        if(fscanf(fp, "%lf %lf %lf", &sys->load_avg[0], &sys->load_avg[1], &sys->load_avg[2]) != 3){
+        if(fscanf(fp, "%lf %lf %lf", &sys->load_avg[0], &sys->load_avg[1], &sys->load_avg[2]) == 3){
             sys->have_load_avg = 1;
         }
         fclose(fp);
