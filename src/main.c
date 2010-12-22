@@ -25,9 +25,9 @@ int main(int argc, char* argv[]){
     char* header = system_header(sys);
     
     printf(
-        //"Content-Type: text/html; charset=utf-8\n"
-        //"X-Powered-By: " PACKAGE_STRING "\n"
-        //"\n"
+        "Content-Type: text/html; charset=utf-8\n"
+        "X-Powered-By: " PACKAGE_STRING "\n"
+        "\n"
         "<!DOCTYPE html>\n"
         "<html>\n"
         "<head>\n"
