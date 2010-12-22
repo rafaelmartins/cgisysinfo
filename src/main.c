@@ -10,7 +10,6 @@
 #include <config.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <config.h>
 #include "system.h"
 #include "memory.h"
 #include "filesystem.h"
