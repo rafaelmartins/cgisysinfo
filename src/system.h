@@ -23,6 +23,8 @@ typedef struct{
 } uptime_struct;
 
 typedef struct{
+    char* ip_address;
+    char* virtual_hostname;
     char* canonical_hostname;
     char* kernel_version;
     uptime_struct uptime;
@@ -33,6 +35,7 @@ typedef struct{
 
 void system_info(sys_struct* sys);
 void free_system(sys_struct* sys);
+char* system_header(sys_struct sys);
 void print_system(sys_struct sys);
 
 #endif /* SYSTEM_H */

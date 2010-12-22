@@ -21,6 +21,12 @@ void system_info(sys_struct* sys){
     sys->have_uptime = 0;
     sys->have_load_avg = 0;
     
+    // ip address
+    sys->ip_address = getenv("SERVER_ADDR");
+    
+    // virtual hostname
+    sys->virtual_hostname = getenv("SERVER_NAME");
+    
     // canonical hostname
     fp = fopen("/proc/sys/kernel/hostname", "r");
     if(fp == NULL){
@@ -81,10 +87,52 @@ void free_system(sys_struct* sys){
     free(sys->kernel_version);
 }
 
+char* system_header(sys_struct sys){
+    size_t size_aux = 0;
+    char* aux = (char*) malloc(sizeof(char));
+    strcpy(aux, "");    
+    if(sys.virtual_hostname != NULL || sys.ip_address != NULL){
+        size_aux += 3;
+        aux = (char*) realloc(aux, size_aux + sizeof(char));
+        strcat(aux, " - ");
+    }
+    if(sys.virtual_hostname != NULL){
+        size_aux += strlen(sys.virtual_hostname) * sizeof(char);
+        aux = (char*) realloc(aux, size_aux + sizeof(char));
+        strcat(aux, sys.virtual_hostname);
+    }
+    if(sys.ip_address != NULL){
+        if(sys.virtual_hostname != NULL){ // add parenthesis and spaces
+            size_aux += (strlen(sys.ip_address) + 3) * sizeof(char);
+            aux = (char*) realloc(aux, size_aux + sizeof(char));
+            strcat(aux, " (");
+            strcat(aux, sys.ip_address);
+            strcat(aux, ")");
+        }
+        else{
+            size_aux += strlen(sys.ip_address) * sizeof(char);
+            aux = (char*) realloc(aux, size_aux + sizeof(char));
+            strcat(aux, sys.ip_address);
+        }
+    }
+    return aux;
+}
+
 void print_system(sys_struct sys){
     printf(
-        "<table border=\"1\">\n"
-        "  <tr><th colspan=\"2\">System Vital</th></tr>\n"
+        "<table>\n"
+        "  <tr><th colspan=\"2\">System Vital</th></tr>\n");
+    if(sys.ip_address != NULL){
+        printf(
+            "  <tr><td>Listening IP</td><td>%s</td></tr>\n",
+            sys.ip_address);
+    }
+    if(sys.virtual_hostname != NULL){
+        printf(
+            "  <tr><td>Virtual Hostname</td><td>%s</td></tr>\n",
+            sys.virtual_hostname);
+    }
+    printf(
         "  <tr><td>Canonical Hostname</td><td>%s</td></tr>\n"
         "  <tr><td>Kernel Version</td><td>%s</td></tr>\n",
         sys.canonical_hostname, sys.kernel_version);

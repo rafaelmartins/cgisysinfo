@@ -73,7 +73,7 @@ void scan_filesystem(fs_struct* fs){
 void print_filesystem(fs_struct fs){
     char buffer[256];
     printf(
-        "<table border=\"1\">\n"
+        "<table>\n"
         "  <tr><th colspan=\"6\">Mounted Filesystems</th></tr>\n"
         "  <tr><th>Partition</th><th>Mount</th><th>Type</th><th>Free</th><th>Used</th><th>Total</th></tr>\n");
     for(int i = 0; i < fs.size; i++){

@@ -62,7 +62,7 @@ void memory_info(mem_struct* mem){
 void print_memory(mem_struct mem){
     char buffer[256];
     printf(
-        "<table border=\"1\">\n"
+        "<table>\n"
         "  <tr><th colspan=\"6\">Memory Usage</th></tr>\n"
         "  <tr><th>&nbsp;</th><th>Free</th><th>Used</th><th>Total</th><th>Buffers</th><th>Cached</th></tr>\n");
     format_memory(mem.physical_free, buffer);

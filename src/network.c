@@ -82,7 +82,7 @@ void scan_network(net_struct* net){
 void print_network(net_struct net){
     char buffer[256];
     printf(
-        "<table border=\"1\">\n"
+        "<table>\n"
         "  <tr><th colspan=\"4\">Network Usage</th></tr>\n"
         "  <tr><th>Device</th><th>Received</th><th>Sent</th><th>Err/Drop</th></tr>\n");
     for(int i = 0; i < net.size; i++){
