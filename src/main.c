@@ -7,6 +7,7 @@
  * See the file COPYING.
  */
 
+#include <config.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <config.h>
