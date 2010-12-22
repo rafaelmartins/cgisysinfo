@@ -127,11 +127,6 @@ void print_system(sys_struct sys){
             "  <tr><td>Listening IP</td><td>%s</td></tr>\n",
             sys.ip_address);
     }
-    if(sys.virtual_hostname != NULL){
-        printf(
-            "  <tr><td>Virtual Hostname</td><td>%s</td></tr>\n",
-            sys.virtual_hostname);
-    }
     printf(
         "  <tr><td>Canonical Hostname</td><td>%s</td></tr>\n"
         "  <tr><td>Kernel Version</td><td>%s</td></tr>\n",
