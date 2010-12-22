@@ -29,6 +29,7 @@ typedef struct{
 } fs_struct;
 
 void scan_filesystem(fs_struct* fs);
+void print_filesystem(fs_struct fs);
 void free_filesystem(fs_struct* fs);
 
 #endif /* FILESYSTEM_H */

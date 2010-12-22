@@ -31,5 +31,6 @@ typedef struct{
 } mem_struct;
 
 void memory_info(mem_struct* mem);
+void print_memory(mem_struct mem);
 
 #endif /* MEMORY_H */

@@ -12,11 +12,11 @@
 
 typedef struct{
     char* interface;
-    unsigned long rx_bytes;
+    unsigned long rx_kbytes;
     unsigned long rx_packets;
     unsigned long rx_errs;
     unsigned long rx_drop;
-    unsigned long tx_bytes;
+    unsigned long tx_kbytes;
     unsigned long tx_packets;
     unsigned long tx_errs;
     unsigned long tx_drop;
@@ -30,6 +30,7 @@ typedef struct{
 } net_struct;
 
 void scan_network(net_struct* net);
+void print_network(net_struct net);
 void free_network(net_struct* net);
 
 #endif /* NETWORK_H */

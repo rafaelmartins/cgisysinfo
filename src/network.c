@@ -43,7 +43,7 @@ void scan_network(net_struct* net){
                     net->devices[net->size]->interface = my_strdup(aux);
                     break;
                 case 1:
-                    net->devices[net->size]->rx_bytes = strtoul(key, NULL, 10);
+                    net->devices[net->size]->rx_kbytes = strtoul(key, NULL, 10)/1024;
                     break;
                 case 2:
                     net->devices[net->size]->rx_packets = strtoul(key, NULL, 10);
@@ -55,7 +55,7 @@ void scan_network(net_struct* net){
                     net->devices[net->size]->rx_drop = strtoul(key, NULL, 10);
                     break;
                 case 9:
-                    net->devices[net->size]->tx_bytes = strtoul(key, NULL, 10);
+                    net->devices[net->size]->tx_kbytes = strtoul(key, NULL, 10)/1024;
                     break;
                 case 10:
                     net->devices[net->size]->tx_packets = strtoul(key, NULL, 10);
@@ -76,6 +76,23 @@ void scan_network(net_struct* net){
         net->size++;
     }
     fclose(fp);
+}
+
+void print_network(net_struct net){
+    char buffer[256];
+    printf(
+        "<table border=\"1\">\n"
+        "  <tr><th colspan=\"4\">Network Usage</th></tr>\n"
+        "  <tr><th>Device</th><th>Received</th><th>Sent</th><th>Err/Drop</th></tr>\n");
+    for(int i = 0; i < net.size; i++){
+        printf("  <tr><td>%s</td>", net.devices[i]->interface);
+        format_memory(net.devices[i]->rx_kbytes, buffer);
+        printf("<td>%s</td>", buffer);
+        format_memory(net.devices[i]->tx_kbytes, buffer);
+        printf("<td>%s</td>", buffer);
+        printf("<td>%lu/%lu</td></tr>\n", net.devices[i]->errs, net.devices[i]->drop);
+    }
+    printf("</table>\n");
 }
 
 void free_network(net_struct* net){
