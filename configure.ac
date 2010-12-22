@@ -17,5 +17,7 @@ AS_IF([test "x$ac_cv_prog_cc_c99" = "xno"], [
   AC_MSG_ERROR([no C99 compiler found, sqlitefs requires a C99 compiler.])
 ])
 
+AC_SYS_LARGEFILE
+
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
