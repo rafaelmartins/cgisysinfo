@@ -7,7 +7,10 @@
  * See the file COPYING.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif /* HAVE_CONFIG_H */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,7 +36,7 @@ void system_info(sys_struct* sys){
         sys->canonical_hostname = NULL;
     }
     else{
-        if(fscanf(fp, "%[^\n]", buffer) != 1){
+        if(fscanf(fp, "%[^\r\n]", buffer) != 1){
             sys->canonical_hostname = NULL;
         }
         else{
@@ -102,7 +105,7 @@ char* system_header(sys_struct sys){
         strcat(aux, sys.virtual_hostname);
     }
     if(sys.ip_address != NULL){
-        if(sys.virtual_hostname != NULL){ // add parenthesis and spaces
+        if(sys.virtual_hostname != NULL){
             size_aux += (strlen(sys.ip_address) + 3) * sizeof(char);
             aux = (char*) realloc(aux, size_aux + sizeof(char));
             strcat(aux, " (");
@@ -120,26 +123,26 @@ char* system_header(sys_struct sys){
 
 void print_system(sys_struct sys){
     printf(
-        "<table>\n"
-        "  <tr><th colspan=\"2\">System Vital</th></tr>\n");
+        "<table>\r\n"
+        "  <tr><th colspan=\"2\">System Vital</th></tr>\r\n");
     if(sys.ip_address != NULL){
         printf(
-            "  <tr><td>Listening IP</td><td>%s</td></tr>\n",
+            "  <tr><td>Listening IP</td><td>%s</td></tr>\r\n",
             sys.ip_address);
     }
     printf(
-        "  <tr><td>Canonical Hostname</td><td>%s</td></tr>\n"
-        "  <tr><td>Kernel Version</td><td>%s</td></tr>\n",
+        "  <tr><td>Canonical Hostname</td><td>%s</td></tr>\r\n"
+        "  <tr><td>Kernel Version</td><td>%s</td></tr>\r\n",
         sys.canonical_hostname, sys.kernel_version);
     if(sys.have_uptime){
         printf(
-            "  <tr><td>Uptime</td><td>%d days %d hours %d minutes %d seconds</td></tr>\n",
+            "  <tr><td>Uptime</td><td>%d days %d hours %d minutes %d seconds</td></tr>\r\n",
             sys.uptime.days, sys.uptime.hours, sys.uptime.minutes, sys.uptime.seconds);
     }
     if(sys.have_load_avg){
         printf(
-            "  <tr><td>Load average</td><td>%.2f %.2f %.2f</td></tr>\n",
+            "  <tr><td>Load Average</td><td>%.2f %.2f %.2f</td></tr>\r\n",
             sys.load_avg[0], sys.load_avg[1], sys.load_avg[2]);
     }
-    printf("</table>\n");
+    printf("</table>\r\n");
 }

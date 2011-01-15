@@ -7,7 +7,10 @@
  * See the file COPYING.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif /* HAVE_CONFIG_H */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -73,9 +76,9 @@ void scan_filesystem(fs_struct* fs){
 void print_filesystem(fs_struct fs){
     char buffer[256];
     printf(
-        "<table>\n"
-        "  <tr><th colspan=\"6\">Mounted Filesystems</th></tr>\n"
-        "  <tr><th>Partition</th><th>Mount</th><th>Type</th><th>Free</th><th>Used</th><th>Total</th></tr>\n");
+        "<table>\r\n"
+        "  <tr><th colspan=\"6\">Mounted Filesystems</th></tr>\r\n"
+        "  <tr><th>Partition</th><th>Mount</th><th>Type</th><th>Free</th><th>Used</th><th>Total</th></tr>\r\n");
     for(int i = 0; i < fs.size; i++){
         printf(
             "  <tr><td>%s</td><td>%s</td><td>%s</td>",
@@ -87,9 +90,9 @@ void print_filesystem(fs_struct fs){
         format_memory(fs.mounts[i]->used, buffer);
         printf("<td>%s (%.1f%%)</td>", buffer, fs.mounts[i]->percent);
         format_memory(fs.mounts[i]->total, buffer);
-        printf("<td>%s</td></tr>\n", buffer);
+        printf("<td>%s</td></tr>\r\n", buffer);
     }
-    printf("</table>\n");
+    printf("</table>\r\n");
 }
 
 void free_filesystem(fs_struct* fs){

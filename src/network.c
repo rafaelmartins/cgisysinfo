@@ -7,7 +7,10 @@
  * See the file COPYING.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif /* HAVE_CONFIG_H */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -82,18 +85,18 @@ void scan_network(net_struct* net){
 void print_network(net_struct net){
     char buffer[256];
     printf(
-        "<table>\n"
-        "  <tr><th colspan=\"4\">Network Usage</th></tr>\n"
-        "  <tr><th>Device</th><th>Received</th><th>Sent</th><th>Err/Drop</th></tr>\n");
+        "<table>\r\n"
+        "  <tr><th colspan=\"4\">Network Usage</th></tr>\r\n"
+        "  <tr><th>Device</th><th>Received</th><th>Sent</th><th>Err/Drop</th></tr>\r\n");
     for(int i = 0; i < net.size; i++){
         printf("  <tr><td>%s</td>", net.devices[i]->interface);
         format_memory(net.devices[i]->rx_kbytes, buffer);
         printf("<td>%s</td>", buffer);
         format_memory(net.devices[i]->tx_kbytes, buffer);
         printf("<td>%s</td>", buffer);
-        printf("<td>%lu/%lu</td></tr>\n", net.devices[i]->errs, net.devices[i]->drop);
+        printf("<td>%lu/%lu</td></tr>\r\n", net.devices[i]->errs, net.devices[i]->drop);
     }
-    printf("</table>\n");
+    printf("</table>\r\n");
 }
 
 void free_network(net_struct* net){
