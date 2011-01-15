@@ -1,7 +1,7 @@
+syntax: glob
+
 *~
 *.o
-*.lo
-*.la
 
 .deps
 
@@ -24,4 +24,4 @@ ltmain.sh
 
 m4
 
-cgisysinfo
+cgisysinfo*
