@@ -18,7 +18,7 @@
 #include "memory.h"
 
 void memory_info(mem_struct* mem){
-    char buffer[100], *key;
+    char buffer[BUFFER_SIZE], *key;
     FILE* fp = fopen("/proc/meminfo", "r");
     if(fp == NULL){
         return;
@@ -26,7 +26,7 @@ void memory_info(mem_struct* mem){
     mem->have_cached = 0;
     mem->have_buffers = 0;
     mem->have_applications = 0;
-    while(fgets(buffer, 100, fp) != NULL){
+    while(fgets(buffer, BUFFER_SIZE, fp) != NULL){
         key = strtok(buffer, ":");
         if(strcmp(key, "MemTotal") == 0){
             mem->physical_total = strtoul(strtok(NULL, "\r\n"), NULL, 10);
@@ -63,7 +63,7 @@ void memory_info(mem_struct* mem){
 }
 
 void print_memory(mem_struct mem){
-    char buffer[256];
+    char buffer[BUFFER_SIZE];
     printf(
         "<table>\r\n"
         "  <tr><th colspan=\"6\">Memory Usage</th></tr>\r\n"

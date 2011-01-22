@@ -18,7 +18,7 @@
 #include "network.h"
 
 void scan_network(net_struct* net){
-    char buffer[256], aux[100], *key;
+    char buffer[BUFFER_SIZE], aux[BUFFER_SIZE], *key;
     int line = 0;
     FILE* fp = fopen("/proc/net/dev", "r");
     if(fp == NULL){
@@ -27,7 +27,7 @@ void scan_network(net_struct* net){
     }
     net->size = 0;
     net->devices = NULL;
-    while(fgets(buffer, 256, fp) != NULL){
+    while(fgets(buffer, BUFFER_SIZE, fp) != NULL){
         if(++line < 3) continue;
         key = strtok(buffer, ":");
         net->devices = (nd_struct**) realloc(net->devices, (net->size+1) * sizeof(nd_struct*));
@@ -83,7 +83,7 @@ void scan_network(net_struct* net){
 }
 
 void print_network(net_struct net){
-    char buffer[256];
+    char buffer[BUFFER_SIZE];
     printf(
         "<table>\r\n"
         "  <tr><th colspan=\"4\">Network Usage</th></tr>\r\n"

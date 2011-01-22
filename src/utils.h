@@ -13,6 +13,8 @@
 #define MB (double) 1024
 #define GB (double) (1024 * MB)
 
+#define BUFFER_SIZE (size_t) 1024
+
 void format_memory(unsigned long mem, char* buf);
 char* my_strdup(char* src);
 

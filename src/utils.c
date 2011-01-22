@@ -19,11 +19,11 @@
 void format_memory(unsigned long mem, char* buf){
     double aux;
     char format[3];
-    if(mem > (2 * GB)){
+    if(mem > GB){
         aux = (double) mem / GB;
         strcpy(format, "GB");
     }
-    else if(mem > (2 * MB)){
+    else if(mem > MB){
         aux = (double) mem / MB;
         strcpy(format, "MB");
     }
@@ -31,7 +31,7 @@ void format_memory(unsigned long mem, char* buf){
         aux = (double) mem;
         strcpy(format, "KB");
     }
-    sprintf(buf, "%.2f %s", aux, format);
+    snprintf(buf, BUFFER_SIZE, "%.2f %s", aux, format);
 }
 
 char* my_strdup(char* src){

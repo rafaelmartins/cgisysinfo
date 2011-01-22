@@ -22,7 +22,7 @@
 #def PACKAGE_STRING "cgisysinfo"
 #endif /* PACKAGE_STRING */
 
-int main(int argc, char* argv[]){
+int main(int argc, char** argv){
     sys_struct sys;
     mem_struct mem;
     fs_struct fs;

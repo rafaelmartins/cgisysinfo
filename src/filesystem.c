@@ -20,7 +20,7 @@
 #include "filesystem.h"
 
 void scan_filesystem(fs_struct* fs){
-    char buffer[256], *key;
+    char buffer[BUFFER_SIZE], *key;
     struct statvfs fs_buffer;
     FILE* fp = fopen("/proc/mounts", "r");
     if(fp == NULL){
@@ -29,7 +29,7 @@ void scan_filesystem(fs_struct* fs){
     }
     fs->size = 0;
     fs->mounts = NULL;
-    while(fgets(buffer, 256, fp) != NULL){
+    while(fgets(buffer, BUFFER_SIZE, fp) != NULL){
         key = strtok(buffer, " ");
         if(key[0] == '/'){ // just the "real" filesystems
             fs->mounts = (mp_struct**) realloc(fs->mounts, (fs->size+1) * sizeof(mp_struct*));
@@ -74,7 +74,7 @@ void scan_filesystem(fs_struct* fs){
 }
 
 void print_filesystem(fs_struct fs){
-    char buffer[256];
+    char buffer[BUFFER_SIZE];
     printf(
         "<table>\r\n"
         "  <tr><th colspan=\"6\">Mounted Filesystems</th></tr>\r\n"

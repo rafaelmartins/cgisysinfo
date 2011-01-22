@@ -19,7 +19,7 @@
 #include "system.h"
 
 void system_info(sys_struct* sys){
-    char buffer[1024], *aux;
+    char buffer[BUFFER_SIZE], *aux;
     FILE* fp;
     sys->have_uptime = 0;
     sys->have_load_avg = 0;
