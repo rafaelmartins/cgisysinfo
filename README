@@ -16,7 +16,7 @@ use CGI.
 
 cgisysinfo just works on Linux. ;)
 
-The binary doesn't have any options and rely on the information from the /proc
+The binary doesn't have any options and relies on the information from the /proc
 pseudo-file system and some environment variables.
 
 Enjoy!
