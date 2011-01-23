@@ -37,10 +37,14 @@ int main(int argc, char** argv){
     system_info(&sys);
     char* header = system_header(sys);
     
+    if(sys.ip_address != NULL && sys.virtual_hostname != NULL){
+        printf(
+            "Content-Type: text/html; charset=utf-8\r\n"
+            "X-Powered-By: " MY_PACKAGE_STRING "\r\n"
+            "\r\n");
+    }
+    
     printf(
-        "Content-Type: text/html; charset=utf-8\r\n"
-        "X-Powered-By: " MY_PACKAGE_STRING "\r\n"
-        "\r\n"
         "<!DOCTYPE html>\r\n"
         "<html>\r\n"
         "<head>\r\n"
