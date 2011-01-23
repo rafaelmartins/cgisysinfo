@@ -29,8 +29,8 @@ typedef struct{
     nd_struct** devices;
 } net_struct;
 
-void scan_network(net_struct* net);
-void print_network(net_struct net);
+net_struct* scan_network(void);
+void print_network(net_struct* net);
 void free_network(net_struct* net);
 
 #endif /* NETWORK_H */

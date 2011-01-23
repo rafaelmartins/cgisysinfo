@@ -27,15 +27,16 @@ typedef struct{
     char* virtual_hostname;
     char* canonical_hostname;
     char* kernel_version;
-    uptime_struct uptime;
+    uptime_struct *uptime;
     double load_avg[3];
     unsigned int have_uptime:1;
     unsigned int have_load_avg:1;
 } sys_struct;
 
-void system_info(sys_struct* sys);
+sys_struct* system_info(void);
+char* system_header(sys_struct* sys);
+void print_system(sys_struct* sys);
 void free_system(sys_struct* sys);
-char* system_header(sys_struct sys);
-void print_system(sys_struct sys);
+void free_system_header(char* header);
 
 #endif /* SYSTEM_H */

@@ -30,7 +30,8 @@ typedef struct{
     unsigned int have_applications:1;
 } mem_struct;
 
-void memory_info(mem_struct* mem);
-void print_memory(mem_struct mem);
+mem_struct* memory_info(void);
+void print_memory(mem_struct* mem);
+void free_memory(mem_struct* mem);
 
 #endif /* MEMORY_H */

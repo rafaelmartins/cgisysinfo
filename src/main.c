@@ -26,18 +26,14 @@
 #define MY_PACKAGE_STRING PACKAGE_STRING "/" HGTIP
 #else
 #define MY_PACKAGE_STRING PACKAGE_STRING
-#endif
+#endif /* HGTIP */
 
 int main(int argc, char** argv){
-    sys_struct sys;
-    mem_struct mem;
-    fs_struct fs;
-    net_struct net;
     
-    system_info(&sys);
+    sys_struct *sys = system_info();
     char* header = system_header(sys);
     
-    if(sys.ip_address != NULL && sys.virtual_hostname != NULL){
+    if(sys->ip_address != NULL && sys->virtual_hostname != NULL){
         printf(
             "Content-Type: text/html; charset=utf-8\r\n"
             "X-Powered-By: " MY_PACKAGE_STRING "\r\n"
@@ -64,21 +60,22 @@ int main(int argc, char** argv){
         "<body>\r\n"
         "<h1>System Information%s</h1>\r\n", header, header);
     
-    free(header);
+    free_system_header(header);
     
     print_system(sys);
-    free_system(&sys);
+    free_system(sys);
     
-    memory_info(&mem);
+    mem_struct *mem = memory_info();
     print_memory(mem);
+    free_memory(mem);
     
-    scan_filesystem(&fs);
+    fs_struct *fs = scan_filesystem();
     print_filesystem(fs);
-    free_filesystem(&fs);
+    free_filesystem(fs);
     
-    scan_network(&net);
+    net_struct *net = scan_network();
     print_network(net);
-    free_network(&net);
+    free_network(net);
     
     printf(
         "<hr />\r\n"

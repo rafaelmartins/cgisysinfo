@@ -28,8 +28,8 @@ typedef struct{
     mp_struct** mounts;
 } fs_struct;
 
-void scan_filesystem(fs_struct* fs);
-void print_filesystem(fs_struct fs);
+fs_struct* scan_filesystem(void);
+void print_filesystem(fs_struct* fs);
 void free_filesystem(fs_struct* fs);
 
 #endif /* FILESYSTEM_H */

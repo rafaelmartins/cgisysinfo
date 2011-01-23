@@ -18,9 +18,14 @@
 #include "utils.h"
 #include "system.h"
 
-void system_info(sys_struct* sys){
+sys_struct* system_info(void){
     char buffer[BUFFER_SIZE], *aux;
     FILE* fp;
+    
+    sys_struct *sys = (sys_struct*) malloc(sizeof(sys_struct));
+    if(sys == NULL){
+        return NULL;
+    }
     sys->have_uptime = 0;
     sys->have_load_avg = 0;
     
@@ -62,12 +67,16 @@ void system_info(sys_struct* sys){
     
     // uptime
     fp = fopen("/proc/uptime", "r");
-    if(fp != NULL){
-        if(fscanf(fp, "%lu", &sys->uptime.timestamp) == 1){
-            sys->uptime.days = (unsigned int) floor(sys->uptime.timestamp / DAY);
-            sys->uptime.hours = (unsigned int) floor((sys->uptime.timestamp % DAY) / HOUR);
-            sys->uptime.minutes = (unsigned int) floor(((sys->uptime.timestamp % DAY) % HOUR) / MINUTE);
-            sys->uptime.seconds = (unsigned int) floor(((sys->uptime.timestamp % DAY) % HOUR) % MINUTE);
+    if(fp == NULL){
+        sys->uptime = NULL;
+    }
+    else{
+        sys->uptime = (uptime_struct*) malloc(sizeof(uptime_struct));
+        if((sys->uptime != NULL) && (fscanf(fp, "%lu", &sys->uptime->timestamp) == 1)){
+            sys->uptime->days = (unsigned int) floor(sys->uptime->timestamp / DAY);
+            sys->uptime->hours = (unsigned int) floor((sys->uptime->timestamp % DAY) / HOUR);
+            sys->uptime->minutes = (unsigned int) floor(((sys->uptime->timestamp % DAY) % HOUR) / MINUTE);
+            sys->uptime->seconds = (unsigned int) floor(((sys->uptime->timestamp % DAY) % HOUR) % MINUTE);
             sys->have_uptime = 1;
         }
         fclose(fp);
@@ -81,6 +90,74 @@ void system_info(sys_struct* sys){
         }
         fclose(fp);
     }
+    
+    return sys;
+}
+
+char* system_header(sys_struct* sys){
+    size_t size_aux = 0;
+    if(sys == NULL){
+        return "";
+    }
+    char* aux = (char*) malloc(sizeof(char));
+    if(aux == NULL){
+        return "";
+    }
+    strcpy(aux, "");    
+    if(sys->virtual_hostname != NULL || sys->ip_address != NULL){
+        size_aux += 3;
+        aux = (char*) realloc(aux, size_aux + sizeof(char));
+        strcat(aux, " - ");
+    }
+    if(sys->virtual_hostname != NULL){
+        size_aux += strlen(sys->virtual_hostname) * sizeof(char);
+        aux = (char*) realloc(aux, size_aux + sizeof(char));
+        strcat(aux, sys->virtual_hostname);
+    }
+    if(sys->ip_address != NULL){
+        if(sys->virtual_hostname != NULL){
+            size_aux += (strlen(sys->ip_address) + 3) * sizeof(char);
+            aux = (char*) realloc(aux, size_aux + sizeof(char));
+            strcat(aux, " (");
+            strcat(aux, sys->ip_address);
+            strcat(aux, ")");
+        }
+        else{
+            size_aux += strlen(sys->ip_address) * sizeof(char);
+            aux = (char*) realloc(aux, size_aux + sizeof(char));
+            strcat(aux, sys->ip_address);
+        }
+    }
+    return aux;
+}
+
+void print_system(sys_struct* sys){
+    if(sys == NULL){
+        return;
+    }
+    printf(
+        "<table>\r\n"
+        "  <tr><th colspan=\"2\">System Vital</th></tr>\r\n");
+    if(sys->ip_address != NULL){
+        printf(
+            "  <tr><td>Listening IP</td><td>%s</td></tr>\r\n",
+            sys->ip_address);
+    }
+    printf(
+        "  <tr><td>Canonical Hostname</td><td>%s</td></tr>\r\n"
+        "  <tr><td>Kernel Version</td><td>%s</td></tr>\r\n",
+        sys->canonical_hostname, sys->kernel_version);
+    if(sys->have_uptime){
+        printf(
+            "  <tr><td>Uptime</td><td>%d days %d hours %d minutes %d seconds</td></tr>\r\n",
+            sys->uptime->days, sys->uptime->hours, sys->uptime->minutes, sys->uptime->seconds);
+    }
+    if(sys->have_load_avg){
+        printf(
+            "  <tr><td>Load Average</td><td>%.2f %.2f %.2f</td></tr>\r\n",
+            sys->load_avg[0], sys->load_avg[1], sys->load_avg[2]);
+    }
+    printf("</table>\r\n");
 }
 
 void free_system(sys_struct* sys){
@@ -88,61 +165,12 @@ void free_system(sys_struct* sys){
         return;
     free(sys->canonical_hostname);
     free(sys->kernel_version);
+    free(sys->uptime);
+    free(sys);
 }
 
-char* system_header(sys_struct sys){
-    size_t size_aux = 0;
-    char* aux = (char*) malloc(sizeof(char));
-    strcpy(aux, "");    
-    if(sys.virtual_hostname != NULL || sys.ip_address != NULL){
-        size_aux += 3;
-        aux = (char*) realloc(aux, size_aux + sizeof(char));
-        strcat(aux, " - ");
+void free_system_header(char* header){
+    if(header != NULL){
+        free(header);
     }
-    if(sys.virtual_hostname != NULL){
-        size_aux += strlen(sys.virtual_hostname) * sizeof(char);
-        aux = (char*) realloc(aux, size_aux + sizeof(char));
-        strcat(aux, sys.virtual_hostname);
-    }
-    if(sys.ip_address != NULL){
-        if(sys.virtual_hostname != NULL){
-            size_aux += (strlen(sys.ip_address) + 3) * sizeof(char);
-            aux = (char*) realloc(aux, size_aux + sizeof(char));
-            strcat(aux, " (");
-            strcat(aux, sys.ip_address);
-            strcat(aux, ")");
-        }
-        else{
-            size_aux += strlen(sys.ip_address) * sizeof(char);
-            aux = (char*) realloc(aux, size_aux + sizeof(char));
-            strcat(aux, sys.ip_address);
-        }
-    }
-    return aux;
-}
-
-void print_system(sys_struct sys){
-    printf(
-        "<table>\r\n"
-        "  <tr><th colspan=\"2\">System Vital</th></tr>\r\n");
-    if(sys.ip_address != NULL){
-        printf(
-            "  <tr><td>Listening IP</td><td>%s</td></tr>\r\n",
-            sys.ip_address);
-    }
-    printf(
-        "  <tr><td>Canonical Hostname</td><td>%s</td></tr>\r\n"
-        "  <tr><td>Kernel Version</td><td>%s</td></tr>\r\n",
-        sys.canonical_hostname, sys.kernel_version);
-    if(sys.have_uptime){
-        printf(
-            "  <tr><td>Uptime</td><td>%d days %d hours %d minutes %d seconds</td></tr>\r\n",
-            sys.uptime.days, sys.uptime.hours, sys.uptime.minutes, sys.uptime.seconds);
-    }
-    if(sys.have_load_avg){
-        printf(
-            "  <tr><td>Load Average</td><td>%.2f %.2f %.2f</td></tr>\r\n",
-            sys.load_avg[0], sys.load_avg[1], sys.load_avg[2]);
-    }
-    printf("</table>\r\n");
 }

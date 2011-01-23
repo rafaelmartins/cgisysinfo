@@ -19,14 +19,14 @@
 #include "utils.h"
 #include "filesystem.h"
 
-void scan_filesystem(fs_struct* fs){
+fs_struct* scan_filesystem(void){
     char buffer[BUFFER_SIZE], *key;
     struct statvfs fs_buffer;
     FILE* fp = fopen("/proc/mounts", "r");
     if(fp == NULL){
-        fs = NULL;
-        return;
+        return NULL;
     }
+    fs_struct *fs = (fs_struct*) malloc(sizeof(fs_struct));
     fs->size = 0;
     fs->mounts = NULL;
     while(fgets(buffer, BUFFER_SIZE, fp) != NULL){
@@ -34,13 +34,11 @@ void scan_filesystem(fs_struct* fs){
         if(key[0] == '/'){ // just the "real" filesystems
             fs->mounts = (mp_struct**) realloc(fs->mounts, (fs->size+1) * sizeof(mp_struct*));
             if(fs->mounts == NULL){
-                fs = NULL;
-                return;
+                return NULL;
             }
             fs->mounts[fs->size] = (mp_struct*) malloc(sizeof(mp_struct));
             if(fs->mounts[fs->size] == NULL){
-                fs = NULL;
-                return;
+                return NULL;
             }
             for(int i = 0; (i < 3) && (key != NULL); i++){
                 switch(i){
@@ -57,8 +55,7 @@ void scan_filesystem(fs_struct* fs){
                 key = strtok(NULL, " ");
             }
             if(statvfs(fs->mounts[fs->size]->mount, &fs_buffer) != 0){
-                fs = NULL;
-                return;
+                return NULL;
             }
             fs->mounts[fs->size]->total = (fs_buffer.f_frsize * fs_buffer.f_blocks) / 1024;
             fs->mounts[fs->size]->free = (fs_buffer.f_frsize * fs_buffer.f_bfree) / 1024;
@@ -71,25 +68,29 @@ void scan_filesystem(fs_struct* fs){
         }
     }
     fclose(fp);
+    return fs;
 }
 
-void print_filesystem(fs_struct fs){
+void print_filesystem(fs_struct* fs){
     char buffer[BUFFER_SIZE];
+    if(fs == NULL){
+        return;
+    }
     printf(
         "<table>\r\n"
         "  <tr><th colspan=\"6\">Mounted Filesystems</th></tr>\r\n"
         "  <tr><th>Partition</th><th>Mount</th><th>Type</th><th>Free</th><th>Used</th><th>Total</th></tr>\r\n");
-    for(int i = 0; i < fs.size; i++){
+    for(int i = 0; i < fs->size; i++){
         printf(
             "  <tr><td>%s</td><td>%s</td><td>%s</td>",
-            fs.mounts[i]->partition,
-            fs.mounts[i]->mount,
-            fs.mounts[i]->type);
-        format_memory(fs.mounts[i]->free, buffer);
+            fs->mounts[i]->partition,
+            fs->mounts[i]->mount,
+            fs->mounts[i]->type);
+        format_memory(fs->mounts[i]->free, buffer);
         printf("<td>%s</td>", buffer);
-        format_memory(fs.mounts[i]->used, buffer);
-        printf("<td>%s (%.1f%%)</td>", buffer, fs.mounts[i]->percent);
-        format_memory(fs.mounts[i]->total, buffer);
+        format_memory(fs->mounts[i]->used, buffer);
+        printf("<td>%s (%.1f%%)</td>", buffer, fs->mounts[i]->percent);
+        format_memory(fs->mounts[i]->total, buffer);
         printf("<td>%s</td></tr>\r\n", buffer);
     }
     printf("</table>\r\n");
@@ -104,4 +105,5 @@ void free_filesystem(fs_struct* fs){
         free(fs->mounts[i]->type);
         free(fs->mounts[i]);
     }
+    free(fs);
 }

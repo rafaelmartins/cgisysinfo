@@ -17,13 +17,16 @@
 #include "utils.h"
 #include "network.h"
 
-void scan_network(net_struct* net){
+net_struct* scan_network(void){
     char buffer[BUFFER_SIZE], aux[BUFFER_SIZE], *key;
     int line = 0;
     FILE* fp = fopen("/proc/net/dev", "r");
     if(fp == NULL){
-        net = NULL;
-        return;
+        return NULL;
+    }
+    net_struct* net = (net_struct*) malloc(sizeof(net_struct));
+    if(net == NULL){
+        return NULL;
     }
     net->size = 0;
     net->devices = NULL;
@@ -32,13 +35,11 @@ void scan_network(net_struct* net){
         key = strtok(buffer, ":");
         net->devices = (nd_struct**) realloc(net->devices, (net->size+1) * sizeof(nd_struct*));
         if(net->devices == NULL){
-            net = NULL;
-            return;
+            return NULL;
         }
         net->devices[net->size] = (nd_struct*) malloc(sizeof(nd_struct));
         if(net->devices[net->size] == NULL){
-            net = NULL;
-            return;
+            return NULL;
         }
         for(int i = 0; (i < 13) && (key != NULL); i++){
             switch(i){
@@ -80,30 +81,36 @@ void scan_network(net_struct* net){
         net->size++;
     }
     fclose(fp);
+    return net;
 }
 
-void print_network(net_struct net){
+void print_network(net_struct *net){
     char buffer[BUFFER_SIZE];
+    if(net == NULL){
+        return;
+    }
     printf(
         "<table>\r\n"
         "  <tr><th colspan=\"4\">Network Usage</th></tr>\r\n"
         "  <tr><th>Device</th><th>Received</th><th>Sent</th><th>Err/Drop</th></tr>\r\n");
-    for(int i = 0; i < net.size; i++){
-        printf("  <tr><td>%s</td>", net.devices[i]->interface);
-        format_memory(net.devices[i]->rx_kbytes, buffer);
+    for(int i = 0; i < net->size; i++){
+        printf("  <tr><td>%s</td>", net->devices[i]->interface);
+        format_memory(net->devices[i]->rx_kbytes, buffer);
         printf("<td>%s</td>", buffer);
-        format_memory(net.devices[i]->tx_kbytes, buffer);
+        format_memory(net->devices[i]->tx_kbytes, buffer);
         printf("<td>%s</td>", buffer);
-        printf("<td>%lu/%lu</td></tr>\r\n", net.devices[i]->errs, net.devices[i]->drop);
+        printf("<td>%lu/%lu</td></tr>\r\n", net->devices[i]->errs, net->devices[i]->drop);
     }
     printf("</table>\r\n");
 }
 
 void free_network(net_struct* net){
-    if(net == NULL)
+    if(net == NULL){
         return;
+    }
     for(int i = 0; i < net->size; i++){
         free(net->devices[i]->interface);
         free(net->devices[i]);
     }
+    free(net);
 }
