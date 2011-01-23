@@ -19,8 +19,14 @@
 #include "network.h"
 
 #ifndef PACKAGE_STRING
-#def PACKAGE_STRING "cgisysinfo"
+#define PACKAGE_STRING "cgisysinfo"
 #endif /* PACKAGE_STRING */
+
+#ifdef HGTIP
+#define MY_PACKAGE_STRING PACKAGE_STRING "/" HGTIP
+#else
+#define MY_PACKAGE_STRING PACKAGE_STRING
+#endif
 
 int main(int argc, char** argv){
     sys_struct sys;
@@ -33,14 +39,14 @@ int main(int argc, char** argv){
     
     printf(
         "Content-Type: text/html; charset=utf-8\r\n"
-        "X-Powered-By: " PACKAGE_STRING "\r\n"
+        "X-Powered-By: " MY_PACKAGE_STRING "\r\n"
         "\r\n"
         "<!DOCTYPE html>\r\n"
         "<html>\r\n"
         "<head>\r\n"
         "  <title>System Information%s</title>\r\n"
         "  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n"
-        "  <meta name=\"generator\" content=\"" PACKAGE_STRING "\" />\r\n"
+        "  <meta name=\"generator\" content=\"" MY_PACKAGE_STRING "\" />\r\n"
         "  <style type=\"text/css\">\r\n"
         "    * {margin:0; padding: 0}\r\n"
         "    body {text-align: center; font-family: Verdana, Arial}\r\n"
@@ -72,7 +78,7 @@ int main(int argc, char** argv){
     
     printf(
         "<hr />\r\n"
-        "<p><em>Powered by: <strong>" PACKAGE_STRING "</strong></em></p>\r\n"
+        "<p><em>Powered by: <strong>" MY_PACKAGE_STRING "</strong></em></p>\r\n"
         "</body>\r\n"
         "</html>\r\n");
     
