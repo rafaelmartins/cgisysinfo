@@ -1,6 +1,7 @@
 AC_PREREQ(2.68)
 
-AC_INIT([cgisysinfo], [0.1], [http://labs.rafaelmartins.org/wiki/cgisysinfo])
+AC_INIT([cgisysinfo], [0.1], [rafael@rafaelmartins.eng.br], [cgisysinfo],
+  [http://hg.rafaelmartins.eng.br/cgisysinfo/])
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_MACRO_DIR([m4])
 

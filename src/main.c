@@ -55,6 +55,7 @@ int main(int argc, char** argv){
         "    td, th {padding: 3px 15px}\r\n"
         "    th {border-bottom: 1px solid #000}\r\n"
         "    p {margin: 5px auto}\r\n"
+        "    a {color: #009}\r\n"
         "  </style>\r\n"
         "</head>\r\n"
         "<body>\r\n"
@@ -79,7 +80,15 @@ int main(int argc, char** argv){
     
     printf(
         "<hr />\r\n"
-        "<p><em>Powered by: <strong>" MY_PACKAGE_STRING "</strong></em></p>\r\n"
+        "<p><em>Powered by: "
+#ifdef PACKAGE_URL
+        "<a href=\"" PACKAGE_URL "\">"
+#endif
+        MY_PACKAGE_STRING
+#ifdef PACKAGE_URL
+        "</a>"
+#endif
+        "</em></p>\r\n"
         "</body>\r\n"
         "</html>\r\n");
     
