@@ -19,10 +19,10 @@ AC_ARG_ENABLE(cgi, AS_HELP_STRING([--enable-cgi],[enable CGI support]),
               enable_cgi=yes)
 
 AC_MSG_CHECKING([for instalation directory])
+AC_ARG_WITH(cgibindir,
+            AS_HELP_STRING([--with-cgibindir],[specify the directory where CGI files go]),
+            CGIBINDIR="${withval}")
 if test "x$enable_cgi" = "xyes"; then
-  AC_ARG_WITH(cgibindir,
-              AS_HELP_STRING([--with-cgibindir],[specify the directory where CGI files go]),
-              CGIBINDIR="${withval}")
   if test -z "$CGIBINDIR"; then
     AC_MSG_ERROR([As you enabled CGI support, you should specify a cgi-bin directory])
   else
