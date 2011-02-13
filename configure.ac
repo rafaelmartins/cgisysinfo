@@ -15,24 +15,20 @@ if test "x$os" != "xlinux"; then
   AC_MSG_ERROR([cgisysinfo just works on Linux. ;) ])
 fi
 
-AC_ARG_ENABLE(cgi, AS_HELP_STRING([--enable-cgi],[enable CGI support]),
-              enable_cgi=yes)
+AC_ARG_ENABLE(cgi, AS_HELP_STRING([--enable-cgi], [enable CGI support]))
+AC_ARG_WITH(cgibindir, AS_HELP_STRING([--with-cgibindir], [CGI-BIN directory]), CGIBINDIR="${withval}")
 
 AC_MSG_CHECKING([for instalation directory])
-AC_ARG_WITH(cgibindir,
-            AS_HELP_STRING([--with-cgibindir],[specify the directory where CGI files go]),
-            CGIBINDIR="${withval}")
-if test "x$enable_cgi" = "xyes"; then
-  if test -z "$CGIBINDIR"; then
+AS_IF([test "x$enable_cgi" = "xyes"], [
+  AS_IF([test -z "$CGIBINDIR"], [
     AC_MSG_ERROR([As you enabled CGI support, you should specify a cgi-bin directory])
-  else
-    AC_MSG_RESULT([$CGIBINDIR])
-    INSTALL_DIR="$CGIBINDIR"
-  fi
-else
+  ])
+  AC_MSG_RESULT([$CGIBINDIR])
+  INSTALL_DIR="$CGIBINDIR"
+], [
   AC_MSG_RESULT([$bindir])
   INSTALL_DIR="$bindir"
-fi
+])
 AC_SUBST([INSTALL_DIR])
 
 AC_MSG_CHECKING([for mercurial tip])
