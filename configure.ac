@@ -1,6 +1,7 @@
-AC_PREREQ([2.68])
+AC_PREREQ(2.68)
 
-AC_INIT([cgisysinfo],[0.1],[rafael@rafaelmartins.eng.br],[cgisysinfo],[http://labs.rafaelmartins.org/wiki/cgisysinfo])
+AC_INIT([cgisysinfo], [0.1], [rafael@rafaelmartins.eng.br], [cgisysinfo],
+  [http://labs.rafaelmartins.org/wiki/cgisysinfo])
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_MACRO_DIR([m4])
 
@@ -14,22 +15,6 @@ AS_CASE([$host_os], [linux*], [os="linux"], [os="unsuported"])
 if test "x$os" != "xlinux"; then
   AC_MSG_ERROR([cgisysinfo just works on Linux. ;) ])
 fi
-
-AC_ARG_ENABLE(cgi, AS_HELP_STRING([--enable-cgi], [enable CGI support]))
-AC_ARG_WITH(cgibindir, AS_HELP_STRING([--with-cgibindir], [CGI-BIN directory]), CGIBINDIR="${withval}")
-
-AC_MSG_CHECKING([for instalation directory])
-AS_IF([test "x$enable_cgi" = "xyes"], [
-  AS_IF([test -z "$CGIBINDIR"], [
-    AC_MSG_ERROR([As you enabled CGI support, you should specify a cgi-bin directory])
-  ])
-  AC_MSG_RESULT([$CGIBINDIR])
-  INSTALL_DIR="$CGIBINDIR"
-], [
-  AC_MSG_RESULT([$bindir])
-  INSTALL_DIR="$bindir"
-])
-AC_SUBST([INSTALL_DIR])
 
 AC_MSG_CHECKING([for mercurial tip])
 if test -d "${ac_top_srcdir:-.}/.hg"; then
@@ -69,9 +54,11 @@ fi
 echo "
         ==== ${MY_PACKAGE_STRING} ====
         
-        installation dir:      ${INSTALL_DIR}
+        prefix:      ${prefix}
+        exec_prefix: ${exec_prefix}
+        bindir:      ${bindir}
         
-        compiler:              ${CC}
-        cflags:                ${CFLAGS}
-        ldflags:               ${LDFLAGS}
+        compiler:    ${CC}
+        cflags:      ${CFLAGS}
+        ldflags:     ${LDFLAGS}
 "

@@ -1,4 +1,3 @@
-bindir = @INSTALL_DIR@
 bin_PROGRAMS = cgisysinfo
 
 cgisysinfo_SOURCES = \
