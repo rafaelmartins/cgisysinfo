@@ -11,13 +11,13 @@ tested with nginx + fcgiwrap. It should works with any CGI-capable web server.
 
 Additionaly, cgisysinfo may be called directly from the command-line, and will
 print a HTML file to stdout. You can setup a cron job to run cgisysinfo and
-create the HTML file inside of the document root of your web server, without
-use CGI.
+create the HTML file inside of your web server's document root, without use
+CGI.
 
 cgisysinfo just works on Linux. ;)
 
-The binary doesn't have any options and relies on the information from the /proc
-pseudo-file system and some environment variables.
+The binary doesn't have any options and relies on the information from the
+/proc pseudo-file system and some environment variables.
 
 Enjoy!
 
