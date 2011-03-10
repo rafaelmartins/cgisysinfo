@@ -37,6 +37,8 @@ AS_IF([test "x$ac_cv_prog_cc_c99" = "xno"], [
 ])
 
 AC_SEARCH_LIBS([floor], [m], , AC_MSG_ERROR([floor not found in -lm.]))
+AC_SEARCH_LIBS([FCGI_Accept], [fcgi], ,
+  AC_MSG_ERROR([FCGI_Accept not found in -lfcgi]))
 AC_CHECK_FUNCS([strtoul])
 AC_CHECK_HEADERS([sys/statvfs.h])
 

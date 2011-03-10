@@ -1,7 +1,7 @@
 /**
  * cgisysinfo: A small cgi utility to show basic system information on
  *             linux machines.
- * Copyright (C) 2010 Rafael G. Martins <rafael@rafaelmartins.eng.br>
+ * Copyright (C) 2010-2011 Rafael G. Martins <rafael@rafaelmartins.eng.br>
  *
  * This program can be distributed under the terms of the GPL-2.
  * See the file COPYING.
@@ -35,7 +35,6 @@ typedef struct{
 
 sys_struct* system_info(void);
 char* system_header(sys_struct* sys);
-void print_system(sys_struct* sys);
 void free_system(sys_struct* sys);
 void free_system_header(char* header);
 

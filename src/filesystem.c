@@ -1,7 +1,7 @@
 /**
  * cgisysinfo: A small cgi utility to show basic system information on
  *             linux machines.
- * Copyright (C) 2010 Rafael G. Martins <rafael@rafaelmartins.eng.br>
+ * Copyright (C) 2010-2011 Rafael G. Martins <rafael@rafaelmartins.eng.br>
  *
  * This program can be distributed under the terms of the GPL-2.
  * See the file COPYING.
@@ -11,8 +11,8 @@
 #include <config.h>
 #endif /* HAVE_CONFIG_H */
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/statvfs.h>
 #include <sys/types.h>
@@ -69,31 +69,6 @@ fs_struct* scan_filesystem(void){
     }
     fclose(fp);
     return fs;
-}
-
-void print_filesystem(fs_struct* fs){
-    char buffer[BUFFER_SIZE];
-    if(fs == NULL){
-        return;
-    }
-    printf(
-        "<table>\r\n"
-        "  <tr><th colspan=\"6\">Mounted Filesystems</th></tr>\r\n"
-        "  <tr><th>Partition</th><th>Mount</th><th>Type</th><th>Free</th><th>Used</th><th>Total</th></tr>\r\n");
-    for(int i = 0; i < fs->size; i++){
-        printf(
-            "  <tr><td>%s</td><td>%s</td><td>%s</td>",
-            fs->mounts[i]->partition,
-            fs->mounts[i]->mount,
-            fs->mounts[i]->type);
-        format_memory(fs->mounts[i]->free, buffer);
-        printf("<td>%s</td>", buffer);
-        format_memory(fs->mounts[i]->used, buffer);
-        printf("<td>%s (%.1f%%)</td>", buffer, fs->mounts[i]->percent);
-        format_memory(fs->mounts[i]->total, buffer);
-        printf("<td>%s</td></tr>\r\n", buffer);
-    }
-    printf("</table>\r\n");
 }
 
 void free_filesystem(fs_struct* fs){

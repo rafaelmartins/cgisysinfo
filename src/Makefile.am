@@ -11,4 +11,6 @@ cgisysinfo_SOURCES = \
 	filesystem.c \
 	filesystem.h \
 	utils.c \
-	utils.h
+	utils.h \
+	output.c \
+	output.h

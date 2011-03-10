@@ -1,7 +1,7 @@
 /**
  * cgisysinfo: A small cgi utility to show basic system information on
  *             linux machines.
- * Copyright (C) 2010 Rafael G. Martins <rafael@rafaelmartins.eng.br>
+ * Copyright (C) 2010-2011 Rafael G. Martins <rafael@rafaelmartins.eng.br>
  *
  * This program can be distributed under the terms of the GPL-2.
  * See the file COPYING.
@@ -82,26 +82,6 @@ net_struct* scan_network(void){
     }
     fclose(fp);
     return net;
-}
-
-void print_network(net_struct *net){
-    char buffer[BUFFER_SIZE];
-    if(net == NULL){
-        return;
-    }
-    printf(
-        "<table>\r\n"
-        "  <tr><th colspan=\"4\">Network Usage</th></tr>\r\n"
-        "  <tr><th>Device</th><th>Received</th><th>Sent</th><th>Err/Drop</th></tr>\r\n");
-    for(int i = 0; i < net->size; i++){
-        printf("  <tr><td>%s</td>", net->devices[i]->interface);
-        format_memory(net->devices[i]->rx_kbytes, buffer);
-        printf("<td>%s</td>", buffer);
-        format_memory(net->devices[i]->tx_kbytes, buffer);
-        printf("<td>%s</td>", buffer);
-        printf("<td>%lu/%lu</td></tr>\r\n", net->devices[i]->errs, net->devices[i]->drop);
-    }
-    printf("</table>\r\n");
 }
 
 void free_network(net_struct* net){

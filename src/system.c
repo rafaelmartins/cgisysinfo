@@ -1,7 +1,7 @@
 /**
  * cgisysinfo: A small cgi utility to show basic system information on
  *             linux machines.
- * Copyright (C) 2010 Rafael G. Martins <rafael@rafaelmartins.eng.br>
+ * Copyright (C) 2010-2011 Rafael G. Martins <rafael@rafaelmartins.eng.br>
  *
  * This program can be distributed under the terms of the GPL-2.
  * See the file COPYING.
@@ -129,35 +129,6 @@ char* system_header(sys_struct* sys){
         }
     }
     return aux;
-}
-
-void print_system(sys_struct* sys){
-    if(sys == NULL){
-        return;
-    }
-    printf(
-        "<table>\r\n"
-        "  <tr><th colspan=\"2\">System Vital</th></tr>\r\n");
-    if(sys->ip_address != NULL){
-        printf(
-            "  <tr><td>Listening IP</td><td>%s</td></tr>\r\n",
-            sys->ip_address);
-    }
-    printf(
-        "  <tr><td>Canonical Hostname</td><td>%s</td></tr>\r\n"
-        "  <tr><td>Kernel Version</td><td>%s</td></tr>\r\n",
-        sys->canonical_hostname, sys->kernel_version);
-    if(sys->have_uptime){
-        printf(
-            "  <tr><td>Uptime</td><td>%d days %d hours %d minutes %d seconds</td></tr>\r\n",
-            sys->uptime->days, sys->uptime->hours, sys->uptime->minutes, sys->uptime->seconds);
-    }
-    if(sys->have_load_avg){
-        printf(
-            "  <tr><td>Load Average</td><td>%.2f %.2f %.2f</td></tr>\r\n",
-            sys->load_avg[0], sys->load_avg[1], sys->load_avg[2]);
-    }
-    printf("</table>\r\n");
 }
 
 void free_system(sys_struct* sys){

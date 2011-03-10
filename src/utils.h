@@ -1,7 +1,7 @@
 /**
  * cgisysinfo: A small cgi utility to show basic system information on
  *             linux machines.
- * Copyright (C) 2010 Rafael G. Martins <rafael@rafaelmartins.eng.br>
+ * Copyright (C) 2010-2011 Rafael G. Martins <rafael@rafaelmartins.eng.br>
  *
  * This program can be distributed under the terms of the GPL-2.
  * See the file COPYING.
@@ -15,7 +15,6 @@
 
 #define BUFFER_SIZE (size_t) 1024
 
-void format_memory(unsigned long mem, char* buf);
 char* my_strdup(char* src);
 
 #endif /* UTILS_H */

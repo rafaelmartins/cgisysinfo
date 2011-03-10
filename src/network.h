@@ -1,7 +1,7 @@
 /**
  * cgisysinfo: A small cgi utility to show basic system information on
  *             linux machines.
- * Copyright (C) 2010 Rafael G. Martins <rafael@rafaelmartins.eng.br>
+ * Copyright (C) 2010-2011 Rafael G. Martins <rafael@rafaelmartins.eng.br>
  *
  * This program can be distributed under the terms of the GPL-2.
  * See the file COPYING.
@@ -30,7 +30,6 @@ typedef struct{
 } net_struct;
 
 net_struct* scan_network(void);
-void print_network(net_struct* net);
 void free_network(net_struct* net);
 
 #endif /* NETWORK_H */

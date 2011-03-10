@@ -1,7 +1,7 @@
 /**
  * cgisysinfo: A small cgi utility to show basic system information on
  *             linux machines.
- * Copyright (C) 2010 Rafael G. Martins <rafael@rafaelmartins.eng.br>
+ * Copyright (C) 2010-2011 Rafael G. Martins <rafael@rafaelmartins.eng.br>
  *
  * This program can be distributed under the terms of the GPL-2.
  * See the file COPYING.
@@ -31,7 +31,6 @@ typedef struct{
 } mem_struct;
 
 mem_struct* memory_info(void);
-void print_memory(mem_struct* mem);
 void free_memory(mem_struct* mem);
 
 #endif /* MEMORY_H */
