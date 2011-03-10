@@ -11,9 +11,14 @@
 #include <config.h>
 #endif /* HAVE_CONFIG_H */
 
+#ifdef ENABLE_FASTCGI
+#include <fcgi_stdio.h>
+#else
+#include <stdio.h>
+#endif /* ENABLE_FASTCGI */
+
 #include <stdlib.h>
 #include <string.h>
-#include <fcgi_stdio.h>
 #include "filesystem.h"
 #include "memory.h"
 #include "network.h"

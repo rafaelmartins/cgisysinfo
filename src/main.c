@@ -11,9 +11,13 @@
 #include <config.h>
 #endif /* HAVE_CONFIG_H */
 
-#include <stdlib.h>
-#include <stdio.h>
+#ifdef ENABLE_FASTCGI
 #include <fcgi_stdio.h>
+#else
+#include <stdio.h>
+#endif /* ENABLE_FASTCGI */
+
+#include <stdlib.h>
 #include "system.h"
 #include "memory.h"
 #include "filesystem.h"
@@ -38,8 +42,10 @@ int main(int argc, char** argv){
     mem_struct *mem;
     fs_struct *fs;
     net_struct *net;
-    
+
+#ifdef ENABLE_FASTCGI
     while(FCGI_Accept() >= 0){
+#endif
         
         sys = system_info();
         header = system_header(sys);
@@ -102,7 +108,10 @@ int main(int argc, char** argv){
             "</em></p>\r\n"
             "</body>\r\n"
             "</html>\r\n");
+
+#ifdef ENABLE_FASTCGI
     }
+#endif /* ENABLE_FASTCGI */
     
     return EXIT_SUCCESS;
 }
