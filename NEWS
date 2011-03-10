@@ -2,3 +2,9 @@ cgisysinfo 0.1
 --------------
 
 First public release.
+
+
+cgisysinfo 0.2
+--------------
+
+Added optional FastCGI support.

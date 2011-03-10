@@ -19,6 +19,9 @@ cgisysinfo just works on Linux. ;)
 The binary doesn't have any options and relies on the information from the
 /proc pseudo-file system and some environment variables.
 
+There's an experimental support for FastCGI available since cgisysinfo-0.2.
+To enable it, please configure cgisysinfo with --enable-fastcgi.
+
 Enjoy!
 
 Rafael G. Martins <rafael@rafaelmartins.eng.br>
