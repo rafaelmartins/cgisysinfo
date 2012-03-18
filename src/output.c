@@ -89,14 +89,14 @@ void print_memory(mem_struct* mem){
         printf("<td>%s</td>", buffer);
     }
     else{
-        printf("<td>&nbsp;</td>", buffer);
+        printf("<td>&nbsp;</td>");
     }
     if(mem->have_cached){
         format_memory(mem->cached, buffer);
         printf("<td>%s</td></tr>\r\n", buffer);
     }
     else{
-        printf("<td>&nbsp;</td></tr>\r\n", buffer);
+        printf("<td>&nbsp;</td></tr>\r\n");
     }
     if(mem->have_applications){
         format_memory(mem->applications_free, buffer);
@@ -151,7 +151,7 @@ void print_system(sys_struct* sys){
         sys->canonical_hostname, sys->kernel_version);
     if(sys->have_uptime){
         printf(
-            "  <tr><td>Uptime</td><td>%d days %d hours %d minutes %d seconds</td></tr>\r\n",
+            "  <tr><td>Uptime</td><td>%d days, %d hours, %d minutes, %d seconds</td></tr>\r\n",
             sys->uptime->days, sys->uptime->hours, sys->uptime->minutes, sys->uptime->seconds);
     }
     if(sys->have_load_avg){
