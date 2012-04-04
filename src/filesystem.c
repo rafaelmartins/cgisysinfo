@@ -80,5 +80,6 @@ void free_filesystem(fs_struct* fs){
         free(fs->mounts[i]->type);
         free(fs->mounts[i]);
     }
+    free(fs->mounts);
     free(fs);
 }

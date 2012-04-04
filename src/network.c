@@ -92,5 +92,6 @@ void free_network(net_struct* net){
         free(net->devices[i]->interface);
         free(net->devices[i]);
     }
+    free(net->devices);
     free(net);
 }
