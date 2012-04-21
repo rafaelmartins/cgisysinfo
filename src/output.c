@@ -19,6 +19,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "filesystem.h"
 #include "memory.h"
 #include "network.h"
@@ -44,6 +45,15 @@ void format_memory(unsigned long mem, char* buf){
     snprintf(buf, BUFFER_SIZE, "%.2f %s", aux, format);
 }
 
+void format_memory_with_percent(unsigned long mem, double percent, char* buf){
+    format_memory(mem, buf);
+    if(isnormal(percent)){
+        char buf2[BUFFER_SIZE];
+        snprintf(buf2, BUFFER_SIZE, "%s (%.1f%%)", buf, percent);
+        strcpy(buf, buf2);
+    }
+}
+
 void print_filesystem(fs_struct* fs){
     char buffer[BUFFER_SIZE];
     if(fs == NULL){
@@ -61,8 +71,8 @@ void print_filesystem(fs_struct* fs){
             fs->mounts[i]->type);
         format_memory(fs->mounts[i]->free, buffer);
         printf("<td>%s</td>", buffer);
-        format_memory(fs->mounts[i]->used, buffer);
-        printf("<td>%s (%.1f%%)</td>", buffer, fs->mounts[i]->percent);
+        format_memory_with_percent(fs->mounts[i]->used, fs->mounts[i]->percent, buffer);
+        printf("<td>%s</td>", buffer);
         format_memory(fs->mounts[i]->total, buffer);
         printf("<td>%s</td></tr>\r\n", buffer);
     }
@@ -80,8 +90,8 @@ void print_memory(mem_struct* mem){
         "  <tr><th>&nbsp;</th><th>Free</th><th>Used</th><th>Total</th><th>Buffers</th><th>Cached</th></tr>\r\n");
     format_memory(mem->physical_free, buffer);
     printf("  <tr><td>Physical:</td><td>%s</td>", buffer);
-    format_memory(mem->physical_used, buffer);
-    printf("<td>%s (%.1f%%)</td>", buffer, mem->physical_percent);
+    format_memory_with_percent(mem->physical_used, mem->physical_percent, buffer);
+    printf("<td>%s</td>", buffer);
     format_memory(mem->physical_total, buffer);
     printf("<td>%s</td>", buffer);
     if(mem->have_buffers){
@@ -101,14 +111,13 @@ void print_memory(mem_struct* mem){
     if(mem->have_applications){
         format_memory(mem->applications_free, buffer);
         printf("  <tr><td>Applications + Kernel:</td><td>%s</td>", buffer);
-        format_memory(mem->applications_used, buffer);
-        printf("<td>%s (%.1f%%)</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>\r\n",
-            buffer, mem->applications_percent);
+        format_memory_with_percent(mem->applications_used, mem->applications_percent, buffer);
+        printf("<td>%s</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>\r\n", buffer);
     }
     format_memory(mem->swap_free, buffer);
     printf("  <tr><td>Swap:</td><td>%s</td>", buffer);
-    format_memory(mem->swap_used, buffer);
-    printf("<td>%s (%.1f%%)</td>", buffer, mem->swap_percent);
+    format_memory_with_percent(mem->swap_used, mem->swap_percent, buffer);
+    printf("<td>%s</td>", buffer);
     format_memory(mem->swap_total, buffer);
     printf("<td>%s</td><td>&nbsp;</td><td>&nbsp;</td></tr>\r\n</table>\r\n", buffer);
 }
