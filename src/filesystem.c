@@ -43,7 +43,7 @@ fs_struct* scan_filesystem(void){
             for(int i = 0; (i < 3) && (key != NULL); i++){
                 switch(i){
                     case 0: // partition
-                        fs->mounts[fs->size]->partition = my_strdup(key);
+                        fs->mounts[fs->size]->partition = realpath(key, NULL);
                         break;
                     case 1: // mount
                         fs->mounts[fs->size]->mount = my_strdup(key);
