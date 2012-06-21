@@ -8,3 +8,9 @@ cgisysinfo 0.2
 --------------
 
 Added optional FastCGI support.
+
+
+cgisysinfo 0.3
+--------------
+
+Code cleanup. Follow symbolic links for disk devices. Minor improvements.
