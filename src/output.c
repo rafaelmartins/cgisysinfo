@@ -30,7 +30,11 @@
 void format_memory(unsigned long mem, char* buf){
     double aux;
     char format[3];
-    if(mem > GB){
+    if(mem > TB){
+        aux = (double) mem / TB;
+        strcpy(format, "TB");
+    }
+    else if(mem > GB){
         aux = (double) mem / GB;
         strcpy(format, "GB");
     }

@@ -12,6 +12,7 @@
 
 #define MB (double) 1024
 #define GB (double) (1024 * MB)
+#define TB (double) (1024 * GB)
 
 #define BUFFER_SIZE (size_t) 1024
 
