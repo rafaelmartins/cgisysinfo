@@ -29,6 +29,7 @@ typedef struct{
     nd_struct** devices;
 } net_struct;
 
+int active_interface(char* name);
 net_struct* scan_network(void);
 void free_network(net_struct* net);
 

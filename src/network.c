@@ -14,8 +14,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/ioctl.h>
+#include <net/if.h>
 #include "utils.h"
 #include "network.h"
+
+int active_interface(char* name){
+    struct ifreq ifr;
+    int s = socket(AF_INET, SOCK_DGRAM, 0);
+    if(s < 0){
+        return 0;
+    }
+    strncpy(ifr.ifr_name, name, IFNAMSIZ);
+    if(ioctl(s, SIOCGIFFLAGS, (caddr_t)&ifr) < 0){
+        return 0;
+    }
+    return (int) ifr.ifr_flags & (IFF_UP | IFF_RUNNING);
+}
 
 net_struct* scan_network(void){
     char buffer[BUFFER_SIZE], aux[BUFFER_SIZE], *key;
@@ -33,6 +48,10 @@ net_struct* scan_network(void){
     while(fgets(buffer, BUFFER_SIZE, fp) != NULL){
         if(++line < 3) continue;
         key = strtok(buffer, ":");
+        sscanf(key, "%s", aux); // removing spaces
+        if(!active_interface(aux)){
+            continue;
+        }
         net->devices = (nd_struct**) realloc(net->devices, (net->size+1) * sizeof(nd_struct*));
         if(net->devices == NULL){
             return NULL;
@@ -41,12 +60,9 @@ net_struct* scan_network(void){
         if(net->devices[net->size] == NULL){
             return NULL;
         }
+        net->devices[net->size]->interface = my_strdup(aux);
         for(int i = 0; (i < 13) && (key != NULL); i++){
             switch(i){
-                case 0: // interface
-                    sscanf(key, "%s", aux); // removing spaces
-                    net->devices[net->size]->interface = my_strdup(aux);
-                    break;
                 case 1:
                     net->devices[net->size]->rx_kbytes = strtoul(key, NULL, 10)/1024;
                     break;
