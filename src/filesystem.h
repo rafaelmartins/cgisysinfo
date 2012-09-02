@@ -28,6 +28,7 @@ typedef struct{
     mp_struct** mounts;
 } fs_struct;
 
+int compare_mp_struct(const void* mp1, const void* mp2);
 fs_struct* scan_filesystem(void);
 void free_filesystem(fs_struct* fs);
 

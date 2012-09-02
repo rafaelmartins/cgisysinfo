@@ -62,12 +62,12 @@ void print_filesystem(fs_struct* fs){
     printf(
         "<table>\r\n"
         "  <tr><th colspan=\"6\">Mounted Filesystems</th></tr>\r\n"
-        "  <tr><th>Partition</th><th>Mount</th><th>Type</th><th>Free</th><th>Used</th><th>Total</th></tr>\r\n");
+        "  <tr><th>Mount</th><th>Partition</th><th>Type</th><th>Free</th><th>Used</th><th>Total</th></tr>\r\n");
     for(int i = 0; i < fs->size; i++){
         printf(
             "  <tr><td>%s</td><td>%s</td><td>%s</td>",
-            fs->mounts[i]->partition,
             fs->mounts[i]->mount,
+            fs->mounts[i]->partition,
             fs->mounts[i]->type);
         format_memory(fs->mounts[i]->free, buffer);
         printf("<td>%s</td>", buffer);

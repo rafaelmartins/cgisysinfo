@@ -19,6 +19,10 @@
 #include "utils.h"
 #include "filesystem.h"
 
+int compare_mp_struct(const void* mp1, const void* mp2){
+    return strcmp((*(mp_struct**)mp1)->mount, (*(mp_struct**)mp2)->mount);
+}
+
 fs_struct* scan_filesystem(void){
     char buffer[BUFFER_SIZE], *key;
     struct statvfs fs_buffer;
@@ -68,6 +72,7 @@ fs_struct* scan_filesystem(void){
         }
     }
     fclose(fp);
+    qsort(fs->mounts, fs->size, sizeof(mp_struct*), compare_mp_struct);
     return fs;
 }
 
