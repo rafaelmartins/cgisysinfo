@@ -32,6 +32,10 @@ int active_interface(char* name){
     return (int) ifr.ifr_flags & (IFF_UP | IFF_RUNNING);
 }
 
+int compare_nd_struct(const void* nd1, const void* nd2){
+    return strcmp((*(nd_struct**)nd1)->interface, (*(nd_struct**)nd2)->interface);
+}
+
 net_struct* scan_network(void){
     char buffer[BUFFER_SIZE], aux[BUFFER_SIZE], *key;
     int line = 0;
@@ -97,6 +101,7 @@ net_struct* scan_network(void){
         net->size++;
     }
     fclose(fp);
+    qsort(net->devices, net->size, sizeof(nd_struct*), compare_nd_struct);
     return net;
 }
 

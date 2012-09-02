@@ -30,6 +30,7 @@ typedef struct{
 } net_struct;
 
 int active_interface(char* name);
+int compare_nd_struct(const void* nd1, const void* nd2);
 net_struct* scan_network(void);
 void free_network(net_struct* net);
 
