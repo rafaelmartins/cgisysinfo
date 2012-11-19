@@ -1,7 +1,17 @@
-cgisysinfo 0.1
+cgisysinfo 0.4
 --------------
 
-First public release.
+Network: just shows active interfaces. interfaces sorted by name.
+File systems: revert "follow symbolic links" change. file systems sorted by
+              mount point.
+Memory: added support to TB size for output.
+Minor improvements
+
+
+cgisysinfo 0.3
+--------------
+
+Code cleanup. Follow symbolic links for disk devices. Minor improvements.
 
 
 cgisysinfo 0.2
@@ -10,7 +20,8 @@ cgisysinfo 0.2
 Added optional FastCGI support.
 
 
-cgisysinfo 0.3
+cgisysinfo 0.1
 --------------
 
-Code cleanup. Follow symbolic links for disk devices. Minor improvements.
+First public release.
+
