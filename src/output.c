@@ -98,26 +98,14 @@ void print_memory(mem_struct* mem){
     printf("<td>%s</td>", buffer);
     format_memory(mem->physical_total, buffer);
     printf("<td>%s</td>", buffer);
-    if(mem->have_buffers){
-        format_memory(mem->buffers, buffer);
-        printf("<td>%s</td>", buffer);
-    }
-    else{
-        printf("<td>&nbsp;</td>");
-    }
-    if(mem->have_cached){
-        format_memory(mem->cached, buffer);
-        printf("<td>%s</td></tr>\r\n", buffer);
-    }
-    else{
-        printf("<td>&nbsp;</td></tr>\r\n");
-    }
-    if(mem->have_applications){
-        format_memory(mem->applications_free, buffer);
-        printf("  <tr><td>Applications + Kernel:</td><td>%s</td>", buffer);
-        format_memory_with_percent(mem->applications_used, mem->applications_percent, buffer);
-        printf("<td>%s</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>\r\n", buffer);
-    }
+    format_memory(mem->buffers, buffer);
+    printf("<td>%s</td>", buffer);
+    format_memory(mem->cached, buffer);
+    printf("<td>%s</td></tr>\r\n", buffer);
+    format_memory(mem->applications_free, buffer);
+    printf("  <tr><td>Applications + Kernel:</td><td>%s</td>", buffer);
+    format_memory_with_percent(mem->applications_used, mem->applications_percent, buffer);
+    printf("<td>%s</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>\r\n", buffer);
     format_memory(mem->swap_free, buffer);
     printf("  <tr><td>Swap:</td><td>%s</td>", buffer);
     format_memory_with_percent(mem->swap_used, mem->swap_percent, buffer);

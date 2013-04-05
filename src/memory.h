@@ -25,9 +25,6 @@ typedef struct{
     unsigned long swap_free;
     unsigned long swap_used;
     double swap_percent;
-    unsigned int have_cached:1;
-    unsigned int have_buffers:1;
-    unsigned int have_applications:1;
 } mem_struct;
 
 mem_struct* memory_info(void);
