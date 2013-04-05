@@ -17,5 +17,7 @@
 #define BUFFER_SIZE (size_t) 1024
 
 char* my_strdup(char* src);
+void format_memory_with_percent(unsigned long mem, double percent, char* buf);
+void format_memory(unsigned long mem, char* buf);
 
 #endif /* UTILS_H */

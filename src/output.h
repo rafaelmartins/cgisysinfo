@@ -15,8 +15,6 @@
 #include "network.h"
 #include "system.h"
 
-void format_memory_with_percent(unsigned long mem, double percent, char* buf);
-void format_memory(unsigned long mem, char* buf);
 void print_filesystem(fs_struct* fs);
 void print_memory(mem_struct* mem);
 void print_network(net_struct *net);
