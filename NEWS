@@ -1,3 +1,11 @@
+cgisysinfo 0.4.1
+----------------
+
+Bugfix release.
+Memory: fixed memory count when cached/buffered memory isn't provided.
+        e.g. OpenVZ containers.
+
+
 cgisysinfo 0.4
 --------------
 
