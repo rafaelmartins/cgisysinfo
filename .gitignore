@@ -1,5 +1,3 @@
-syntax: glob
-
 *~
 *.o
 
@@ -10,6 +8,7 @@ Makefile.in
 
 ChangeLog
 
+config
 config.*
 configure
 
